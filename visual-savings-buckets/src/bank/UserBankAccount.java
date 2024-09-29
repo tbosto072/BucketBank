@@ -3,11 +3,16 @@ package bank;
 import java.util.Scanner;
 import java.util.ArrayList;
 
+/**
+ * A bank account class that creates UserBankAccount objects and can
+ * be specified as checking or savings, and can be labelled.
+ */
 public class UserBankAccount {
-	static double balance;
+	private static double balance;
 	static String accountHolderFirstName;
 	static String accountHolderLastName;
 	static String accountType;
+	static String accountLabel;
 	ArrayList<UserBankAccount> accountsOpen = new ArrayList<UserBankAccount>();
 
 	Scanner keyboard = new Scanner(System.in);
@@ -17,6 +22,7 @@ public class UserBankAccount {
 		accountHolderFirstName = "";
 		accountHolderLastName = "";
 		accountType = "";
+		accountLabel = "";
 	}
 
 	public UserBankAccount(String type, double bal, String fn, String ln) {
@@ -26,8 +32,34 @@ public class UserBankAccount {
 		accountHolderLastName = ln;
 	}
 
+	/**
+	 * A getter function that returns the balance of a bank account
+	 * 
+	 * @return bank account balance
+	 */
 	public double getBalance() {
 		return balance;
+	}
+
+	public void setBalance(double bal) {
+		balance = bal;
+	}
+
+	/**
+	 * A getter function that returns the label of the bank account
+	 * 
+	 * @return bank account label
+	 */
+	public String getLabel() {
+		return accountLabel;
+	}
+
+	public String getAccountType() {
+		return accountType;
+	}
+
+	public void openAccount() {
+
 	}
 
 	public void depositMoney() {
@@ -46,46 +78,59 @@ public class UserBankAccount {
 		keyboard.close();
 	}
 
-	public void transferMoney(UserBankAccount a, UserBankAccount b) {
+	public void transferMoney(UserBankAccount donor, UserBankAccount receiver, double amount) {
+		donor.setBalance(donor.getBalance() - amount);
+		receiver.setBalance(receiver.getBalance() + amount);
 
+		System.out.println("Account " + donor.getLabel() + " now has a balance of " + donor.getBalance());
+		System.out.println("Account " + receiver.getLabel() + " now has a balance of " + receiver.getBalance());
 	}
 
 	public void displayAccounts() {
-
+		for (UserBankAccount i : accountsOpen) {
+			System.out.print("[" + i.getAccountType() + ",");
+			System.out.print("]");
+		}
 	}
 
 	public void selectOption() {
+		int input = 0;
 
-		System.out.println("Please select an account to work with: ");
-		System.out.print("1. Select account \n");
-		System.out.print("2. Deposit money \n");
-		System.out.print("3. Create new savings bucket \n");
-		System.out.println("4. Exit");
-		String input = keyboard.nextLine();
+		while (input != 6) {
+			System.out.println("What would you like to do? ");
+			System.out.print("1. View balance on account \n");
+			System.out.print("2. Deposit money \n");
+			System.out.print("3. Withdraw money \n");
+			System.out.print("4. Transfer money \n");
+			System.out.print("5. Create new savings bucket \n");
+			System.out.println("6. Exit \n");
 
-		switch (input) {
-			case "1":
-				System.out.println("Your balance is $" + balance);
-				break;
-			case "2":
-				// System.out.println("Please enter the amount you want to deposit: ");
-				// double amount = keyboard.nextDouble();
-				depositMoney();
-				break;
-			case "3":
-				System.out.println("Great! How much would you like to transfer?");
-				break;
-			case "4":
-				System.out.println("Have a good day!");
-				break;
+			input = keyboard.nextInt();
+
+			switch (input) {
+				case 1:
+					System.out.println("Please select an account: ");
+					displayAccounts();
+					break;
+				case 2:
+					break;
+				case 3:
+					break;
+				case 4:
+					break;
+				case 5:
+					break;
+				case 6:
+					System.out.print("Have a good day!");
+					break;
+			}
 		}
 
 	}
 
 	public void welcomeMessage() {
 		System.out.println("Welcome " + accountHolderFirstName + "!");
-		// System.out.println("Your balance is: $" + balance);
-		selectOption();
+		// selectOption();
 	}
 
 }
