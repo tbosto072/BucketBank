@@ -11,9 +11,9 @@ public class UserBankAccount {
 	private static double balance;
 	static String accountHolderFirstName;
 	static String accountHolderLastName;
-	static String accountType;
-	static String accountLabel;
-	ArrayList<UserBankAccount> accountsOpen = new ArrayList<UserBankAccount>();
+	private static String accountType;
+	private static String accountLabel;
+	ArrayList<UserBankAccount> accountsOpen;
 
 	Scanner keyboard = new Scanner(System.in);
 
@@ -23,10 +23,12 @@ public class UserBankAccount {
 		accountHolderLastName = "";
 		accountType = "";
 		accountLabel = "";
+		accountsOpen = new ArrayList<>();
 	}
 
-	public UserBankAccount(String type, double bal, String fn, String ln) {
+	public UserBankAccount(String type, String label, double bal, String fn, String ln) {
 		accountType = type;
+		accountLabel = label;
 		balance = bal;
 		accountHolderFirstName = fn;
 		accountHolderLastName = ln;
@@ -54,18 +56,27 @@ public class UserBankAccount {
 		return accountLabel;
 	}
 
+	public void setLabel(String label) {
+		accountLabel = label;
+	}
+
 	public String getAccountType() {
 		return accountType;
 	}
 
-	public void openAccount() {
+	public void setAccountType(String type) {
+		accountType = type;
+	}
 
+	public UserBankAccount openAccount() {
+		UserBankAccount acc = new UserBankAccount();
+		return acc;
 	}
 
 	public void depositMoney() {
 		System.out.print("Please enter the amount you want to deposit: ");
 		double amount = keyboard.nextDouble();
-		balance += amount;
+		setBalance(getBalance() + amount);
 		System.out.println("Your new balance is " + getBalance());
 		keyboard.close();
 	}
@@ -88,7 +99,7 @@ public class UserBankAccount {
 
 	public void displayAccounts() {
 		for (UserBankAccount i : accountsOpen) {
-			System.out.print("[" + i.getAccountType() + ",");
+			System.out.print("[" + i.getLabel() + ",");
 			System.out.print("]");
 		}
 	}
